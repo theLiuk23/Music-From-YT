@@ -172,7 +172,7 @@ class music_cog(commands.Cog):
             await ctx.send("Chill bro. Write more slowly!")
         else:
             await ctx.send("Unexpected error. Are you sure you wrote the command correctly?")
-        print(f'{error};\n{args}')
+        # print(f'{error};\n{args}')
 
 
     # loads some variables before doing any task
@@ -235,8 +235,11 @@ class music_cog(commands.Cog):
             prefix = config.get('variables', 'prefix')
             arg = message.replace(prefix + 'lyrics ', '')
             arg = message.replace(prefix + 'lyrics', '')
-            if arg == '':
-                arg = self.now_playing['title']
+            if self.now_playing != "":
+                if arg == '':
+                    arg = self.now_playing['title']
+            else:
+                await ctx.send("I'm playing nothing atm, dude!")
             print(str(self.now) + " - " + str(ctx.author) + " asked for '" + str(arg) +  "' lyrics.")
             g = lyricsgenius.Genius(self.lyrics_token)
             song = g.search_song(arg)
